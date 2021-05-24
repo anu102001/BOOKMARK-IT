@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+.navbar-nav{
+  flex-grow: 1;
+}
+.main{
+  height:fit-content;
+  min-height: 100vh;
+  padding: 2% 10% 10% 10%;
+  background-color:rgb(255, 255, 255);
+}
+.blogs{
+  height:fit-content;
+  min-height: 300px;
+  
+  align-items: center;
+  padding:2rem 3rem 2rem 3rem;
+  background-color:rgb(245, 191, 191);
+}
