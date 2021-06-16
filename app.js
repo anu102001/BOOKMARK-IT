@@ -1,10 +1,10 @@
 const request = require("request");
 const express =require("express");
 const app = express();
-const port = 3000;
+const port = 5000;
 
 const blogRoutes = require('./routes/blogRouter.js');
-
+const communityRoutes = require('./routes/communityRouter.js');
 
 // Seting Up Mongoose Connection
 const mongoose = require('mongoose');
@@ -23,7 +23,7 @@ mongoose.connect(mongoDB, {
     console.log(err.message);
 });
 
-app.set('views','l./views')
+
 app.set('view engine','ejs');
 
 app.use(express.static('public'))
@@ -33,11 +33,11 @@ app.use('/css',express.static(__dirname +'public/img'))
 
 
 app.get('/',(req, res)=>{
-    res.render('home');
+    res.render('../views/home');
 });
 
 app.use('/blogs', blogRoutes);
-
+app.use('/community', communityRoutes);
 app.listen(port,()=>{
     console.log(`server listening at http://localhost:${port}`)
 });

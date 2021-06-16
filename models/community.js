@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
-const communityschema = new mongoose.schema({
+const communitySchema = new Schema({
   name: String,
   user: String,
   blogs: String,
   tags: String,
 });
 
-module.exports = mongoos4
-module.exports= mongoose.model('Community', blogschema)Com
+
+module.exports= mongoose.model('Community', communitySchema)
