@@ -1,0 +1,14 @@
+<%- include("../partials/preTitle") %>
+<title>Show</title>
+<%- include("../partials/header") %>
+    
+    <h1>Show Blog</h1>
+
+    <p><a href="<%= blog.link %>">blog.link</a></p>
+
+    <p><a href="/blogs/<%= blog._id %>/edit">Edit Blog</a></p>
+
+    <form action="/blogs/<%= blog._id %>/delete" method="POST">
+        <button type="submit">Delete Blog</button>
+    </form>
+<%- include("../partials/footer") %>
