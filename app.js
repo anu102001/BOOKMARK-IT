@@ -39,5 +39,5 @@ app.get('/',(req, res)=>{
 app.use('/blogs', blogRoutes);
 
 app.listen(port,()=>{
-    console.log(`weather app is listening at http://localhost:${port}`)
+    console.log(`server listening at http://localhost:${port}`)
 });

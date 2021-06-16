@@ -1,5 +1,5 @@
 const express = require('express');
-const Blogs= require('../models/blogs')
+const Blogs= require('../models/blogs.js')
 var router = express.Router();
 
 router.get('/',async (req,res)=>{
@@ -27,9 +27,6 @@ router.delete('/:id', async(req,res)=>{
     await Blogs.findByIdAndDelete(req.params.id)
     res.redirect('/')
 });
-
-
-
 
 
 module.exports = router;
