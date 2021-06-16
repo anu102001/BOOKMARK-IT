@@ -6,6 +6,8 @@ const port = 5000;
 const blogRoutes = require('./routes/blogRouter.js');
 const communityRoutes = require('./routes/communityRouter.js');
 
+const {deleteAllBlogs} = require('./helper')
+
 // Seting Up Mongoose Connection
 const mongoose = require('mongoose');
 const mongoDB = "mongodb://localhost:27017/blogapp";
@@ -23,6 +25,7 @@ mongoose.connect(mongoDB, {
     console.log(err.message);
 });
 
+// deleteAllBlogs();
 
 app.set('view engine','ejs');
 

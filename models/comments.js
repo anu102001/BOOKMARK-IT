@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const commentsschema = new mongoose.schema({
+const commentsschema = new mongoose.Schema({
   approved: String,
   likes: Number,
   content: String,
