@@ -5,7 +5,16 @@ const blogschema = new Schema({
     link:{
         type:String,
         required: true
-    }
+    },
+    img:{
+        type:String,
+    },
+    heading:{
+        type:String,
+    },
+    content:{
+        type:String,
+    },
 });
 
 module.exports = mongoose.model('Blogs', blogschema);

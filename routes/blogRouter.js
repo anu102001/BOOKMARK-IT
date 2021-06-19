@@ -1,5 +1,7 @@
 const express = require('express');
-const Blogs = require('../models/blogs.js')
+const Blogs = require('../models/blogs.js');
+
+const {getContent} = require('../scraper.js');
 
 var router = express.Router();
 
@@ -25,20 +27,32 @@ router.get('/new', (req,res)=>{
      res.render('../views/blogs/new')
 });
 
-router.post('/', (req, res) => {
-    var url = req.body.url;
+router.post('/', async (req, res) => {
+    try{
+        var url = req.body.url;
 
-    var newBlog = new Blogs({
-        link: url
-    })
-
-    newBlog.save(err => {
-        if(err){
-            console.log(err);
-        } else {
-            res.redirect(`/blogs`);
-        }
-    })
+        var content = await getContent(url);
+    
+        console.log(content);
+    
+        var newBlog = new Blogs({
+            link: url,
+            heading: content?.heading,
+            img: content?.img,
+            content: content?.content
+        });
+    
+    
+        newBlog.save(err => {
+            if(err){
+                console.log(err);
+            } else {
+                res.redirect(`/blogs`);
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 router.get('/:id', (req, res) => {
@@ -79,6 +93,7 @@ router.post('/:id/edit',async (req,res)=>{
 
 router.post('/:id/delete', async(req,res)=>{
     await Blogs.findByIdAndDelete(req.params.id)
+    console.log("Blog Deleted");
     res.redirect('/blogs')
 });
 
