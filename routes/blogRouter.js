@@ -1,5 +1,7 @@
 const express = require('express');
 const Blogs = require('../models/blogs.js');
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const {getContent} = require('../scraper.js');
 
@@ -15,7 +17,7 @@ router.get('/',async (req,res)=>{
         if(err){
             console.log(err);
         } else {
-            console.log(blogs);
+            // console.log(blogs);
             res.render('blogs/index', {
                 Blogs: blogs
             });
@@ -31,25 +33,42 @@ router.post('/', async (req, res) => {
     try{
         var url = req.body.url;
 
-        var content = await getContent(url);
-    
-        console.log(content);
-    
-        var newBlog = new Blogs({
-            link: url,
-            heading: content?.heading,
-            img: content?.img,
-            content: content?.content
-        });
-    
-    
-        newBlog.save(err => {
-            if(err){
-                console.log(err);
-            } else {
-                res.redirect(`/blogs`);
-            }
-        })
+        await axios.get(url) 
+            .then(async (response) => {
+                var html = response.data;
+                var $ = await cheerio.load(html);
+
+                var heading = $('h1').text();
+                var img = $('img');
+                var p = $('p');
+
+                var maxIdx = -1;
+                var maxSize = 0;
+                for (var i = 0; i < img.length; i++) {
+                    if (img[i].attribs.width * img[i].attribs.height >= maxSize) {
+                      maxSize = img[i].attribs.width * img[i].attribs.height;
+                      maxIdx = i;
+                    }
+                }
+
+                var newBlog = new Blogs({
+                    link : url,
+                    heading : heading,
+                    img: img[maxIdx].attribs.src,
+                    content: p[0].children[0].data
+                });
+
+                await newBlog.save(err => {
+                    if(err){
+                        console.log(err);
+                    } else {
+                        console.log(newBlog);
+                        console.log('Blog saved');
+                        res.redirect(`/blogs`);
+                    }
+                })
+            });
+
     } catch (e) {
         console.log(e);
     }
@@ -97,9 +116,4 @@ router.post('/:id/delete', async(req,res)=>{
     res.redirect('/blogs')
 });
 
-
-
 module.exports = router;
-
-
-// https://developers.medium.com/
