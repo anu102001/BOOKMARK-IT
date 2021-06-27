@@ -7,6 +7,6 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>
-  res.send("hellooooo")
+  res.render('home')
 );
 module.exports = router;

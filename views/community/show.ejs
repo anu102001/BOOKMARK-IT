@@ -1,0 +1,15 @@
+<%- include("../partials/preTitle") %>
+<title>Show</title>
+<%- include("../partials/header") %>
+    
+    <h1>Show Community</h1>
+
+    <h2><%= community.name %></h2>
+    <% blogs.forEach(blog => { %>
+        <p>
+          <a href="/blogs/<%= blog._id %>"><%= blog.link %></a>
+        </p>
+    <% }) %>
+    
+    <a href="/community/<%= community._id %>/addBlog">Add Blog</a>
+<%- include("../partials/footer") %>

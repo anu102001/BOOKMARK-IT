@@ -1,0 +1,13 @@
+<%- include("../partials/preTitle") %>
+<title>New Community</title>
+<%- include("../partials/header") %>
+   <div class="container">
+       <h1 class="mb-4">New Community</h1>
+        <form action="/community/new" method="POST">
+            <label for="Name">Name: </label>
+            <input type="text" id="Name" name="name">
+            <a href="/" class="btn btn-primary">cancel</a>
+            <button type="submit">save</button>
+        </form>         
+    </div>
+<%- include("../partials/footer") %>

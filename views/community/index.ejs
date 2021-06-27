@@ -10,6 +10,10 @@
 
     <body>
         <h1>humara community page hai bc</h1>
+
+        <% communities.forEach(community => { %>
+            <a href="/community/<%= community._id %>"><%= community.name %></a>
+        <% }) %>
     </body>
 
 </html>
