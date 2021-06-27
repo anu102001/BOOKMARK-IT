@@ -3,9 +3,21 @@ const { Schema } = mongoose;
 
 const communitySchema = new Schema({
   name: String,
-  user: String,
-  blogs: String,
-  tags: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  },
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blogs'
+    }
+  ],
+  tags: [
+    {
+      type: String
+    }
+  ],
 });
 
 

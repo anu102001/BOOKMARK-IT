@@ -2,6 +2,8 @@ const express = require('express');
 const Blogs = require('../models/blogs.js');
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
 
 const {getContent} = require('../scraper.js');
 
@@ -24,15 +26,29 @@ router.get('/',async (req,res)=>{
         }
     })
 });
+router.get('/myblogs', ensureAuthenticated, async (req, res) => {
+    try {
+      const blogs = await Blogs.find({ user: req.user.id });
+      console.log(Blogs);
 
-router.get('/new', (req,res)=>{
+      res.render('user/index', {
+        name: req.user.firstName,
+        blogs,
+      })
+    } catch (err) {
+      console.error(err)
+      res.send('error')
+    }
+  });
+
+router.get('/new',ensureAuthenticated,(req,res)=>{
      res.render('../views/blogs/new')
 });
 
 router.post('/', async (req, res) => {
     try{
         var url = req.body.url;
-
+        var USER = req.user.id;
         await axios.get(url) 
             .then(async (response) => {
                 var html = response.data;
@@ -55,7 +71,8 @@ router.post('/', async (req, res) => {
                     link : url,
                     heading : heading,
                     img: img[maxIdx].attribs.src,
-                    content: p[0].children[0].data
+                    content: p[0].children[0].data,
+                    user: USER
                 });
 
                 await newBlog.save(err => {
@@ -110,10 +127,24 @@ router.post('/:id/edit',async (req,res)=>{
     })
 });
 
-router.post('/:id/delete', async(req,res)=>{
-    await Blogs.findByIdAndDelete(req.params.id)
-    console.log("Blog Deleted");
-    res.redirect('/blogs')
+router.post('/:id/delete',ensureAuthenticated, async(req,res)=>{
+ try{
+      let dblog=  await Blogs.findById(req.params.id).lean();
+  if(!dblog){
+      return res.render('error/404')
+  }
+  if(dblog.user!=req.user.id){
+      res.send('you can not delete this blog')
+  } else{
+      await Blogs.remove({_id: req.params.id})
+      res.redirect('/blogs/myblogs')
+      console.log("blogs deleted")
+   }
+}
+ catch(err){
+    console.log(err);
+    res.send('error')
+ }
 });
 
 module.exports = router;

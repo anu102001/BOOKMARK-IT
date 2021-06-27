@@ -61,7 +61,6 @@ mongoose.connect(mongoDB, {
 }).catch(err => {
     console.log(err.message);
 });
-
 // deleteAllBlogs();
 
 app.set('view engine','ejs');

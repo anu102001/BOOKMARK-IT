@@ -1,0 +1,13 @@
+<%- include("../partials/preTitle") %>
+<title>New Blog</title>
+<%- include("../partials/header") %>
+   <div class="container">
+       <h1 class="mb-4">New Blog</h1>
+        <form action="/community/<%= communityId %>/addBlog" method="POST">
+            <label for="Url">URL: </label>
+            <input type="text" id="Url" name="url">
+            <a href="/" class="btn btn-primary">cancel</a>
+            <button type="submit">save</button>
+        </form>         
+    </div>
+<%- include("../partials/footer") %>
