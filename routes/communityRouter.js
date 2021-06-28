@@ -73,28 +73,6 @@ router.get('/:id/addBlog', (req, res) => {
 router.post('/:id/addBlog', async (req, res) => {
     var url = req.body.url;
     try{
-        // var blogs = Blogs.findOne({
-        //     link: url
-        // });
-        // var community = Community.findById(req.params.id);
-        // // console.log(community);
-        // console.log(blogs.link);
-
-        // // if(blogs){
-        // //     // community.blogs.append(blogs._id);
-            
-        // //     community.save(err => {
-        // //         if(err) {
-        // //             console.log(err);
-        // //         } else {
-        // //             res.redirect('/community');
-        // //         }
-        // //     });
-        // // } else {
-        // //     res.redirect('/blogs/new');
-        // // }
-        // res.send('blogs');
-
         Blogs.findOne({
             link: url
         }, (err, blog) => {       
