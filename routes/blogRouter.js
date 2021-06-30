@@ -55,10 +55,11 @@ router.post('/', async (req, res) => {
                 var $ = await cheerio.load(html);
 
                 var heading = $('h1').text();
-                var img = $('img');
-                var p = $('p');
+               var img = $('img');
+                var p = $('#speakable-summary').text();
+              
 
-                var maxIdx = -1;
+               /* var maxIdx = -1;
                 var maxSize = 0;
                 for (var i = 0; i < img.length; i++) {
                     if (img[i].attribs.width * img[i].attribs.height >= maxSize) {
@@ -66,12 +67,13 @@ router.post('/', async (req, res) => {
                       maxIdx = i;
                     }
                 }
-
+         */
                 var newBlog = new Blogs({
                     link : url,
                     heading : heading,
-                    img: img[maxIdx].attribs.src,
-                    content: p[0].children[0].data,
+                   // img: img[maxIdx].attribs.src,
+                    img: img[0].attribs.src,
+                    content: p,
                     user: USER
                 });
 
