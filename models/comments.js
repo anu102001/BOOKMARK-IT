@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const commentsschema = new mongoose.Schema({
-  approved: String,
-  likes: Number,
-  content: String,
+  name:{
+    type:String
+  },
+  
+  content: {
+    type:String
+  }
 });
 module.exports = mongoose.model("Comments", commentsschema);

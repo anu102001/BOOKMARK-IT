@@ -1,6 +1,7 @@
 const express = require("express");
 const Community = require("../models/community");
 const Blogs = require('../models/blogs.js');
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
@@ -13,7 +14,7 @@ router.use(express.urlencoded({ extended: true }));
 // editPost
 // delete
 // deletePost
-router.get('/', async (req, res) => {
+router.get('/', ensureAuthenticated,async (req, res) => {
     Community.find({}, (err, communities) => {
         if (err) {
             console.log(err);
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.get('/new', async (req, res) => {
+router.get('/new', ensureAuthenticated ,async (req, res) => {
     res.render('community/new');
 })
 
@@ -45,32 +46,51 @@ router.post('/new', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-    Community.findById(req.params.id, (err, foundCommunity) => {
+router.get('/:id', async (req, res) => {
+    
+    Community.findById(req.params.id, async (err, foundCommunity) => {
+      
         if (err) {
             console.log(err);
         } else {
-            var blogs = [];
-            foundCommunity.blogs.forEach(blog_id => {
-                 console.log(blog_id)
-            });
+            
+            console.log(`/community/${req.params.id}`);
+            
+            
+            // console.log('Array of blog ids: ')
+            // console.log(foundCommunity.blogs);
+            // foundCommunity.blogs.forEach(blog_id => {
+            //     console.log('BLog_ID from /:id  : ')
+            //      console.log(blog_id);
+            //      Blogs.findById(blog_id, (err, found) => {
+            //          if(err) {
+            //              console.log(err);
+            //          } else {
+            //             // console.log(found);
+            //             blogs.push(found);
+            //          }
+            //      }); 
+            // });
+
+            const blogs = await Blogs.find({ '_id' : { $in: foundCommunity.blogs } });
+
             console.log(blogs);
             res.render('community/show', {
                 community: foundCommunity,
-                blogs
+                blogs: blogs
             });
         }
     });
 
 });
 
-router.get('/:id/addBlog', (req, res) => {
+router.get('/:id/addBlog',ensureAuthenticated, (req, res) => {
     res.render('community/addBlog', {
         communityId: req.params.id
     });
 });
 
-router.post('/:id/addBlog', async (req, res) => {
+router.post('/:id/addBlog',ensureAuthenticated, async (req, res) => {
     var url = req.body.url;
     try{
         Blogs.findOne({
@@ -79,14 +99,26 @@ router.post('/:id/addBlog', async (req, res) => {
             if(err){
                 console.log(err);
             } else {
+                if(blog===null){
+                    res.send("please add blog to your account")
+                }
+                else{ 
+                console.log('Blog:')
                 console.log(blog);
                 Community.findById(req.params.id, (err, community) => {
-                    console.log(community);
-                    community.blogs.push(blog);
-                    community.save();
-                    console.log(community);
-                    res.redirect(`/community/${req.params.id}`)
+                    if(err) {
+                        console.log(err)
+                    } else {
+                        console.log('Community: ')
+                        console.log(community);
+                         community.blogs.push(blog._id);
+                        community.save();
+                        console.log(community);
+                        console.log('Community updated')
+                        res.redirect(`/community/${req.params.id}`)
+                    }
                 });
+             }
             }
         })
     } catch (e) {
@@ -94,7 +126,7 @@ router.post('/:id/addBlog', async (req, res) => {
     }
     
 });
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit',ensureAuthenticated, (req, res) => {
     Community.findById(req.params.id, (err, foundCommunity) => {
         if (err) {
             console.log(err);
@@ -106,7 +138,7 @@ router.get('/:id/edit', (req, res) => {
 
 })
 
-router.post('/:id/edit', (req, res) => {
+router.post('/:id/edit', ensureAuthenticated,(req, res) => {
     Community.findByIdAndUpdate(req.params.id, (err, foundCommunity) => {
         if (err) {
             console.log(err);
@@ -118,7 +150,7 @@ router.post('/:id/edit', (req, res) => {
     })
 })
 
-router.post('/:community/delete', (req, res) => {
+router.post('/:community/delete',ensureAuthenticated,(req, res) => {
     Community.remove({ _id: req.params.community }, (err) => {
         if (err) {
             console.log(err);

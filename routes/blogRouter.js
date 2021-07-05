@@ -46,10 +46,18 @@ router.get('/new',ensureAuthenticated,(req,res)=>{
 });
 
 router.post('/', async (req, res) => {
+
     try{
         var url = req.body.url;
         var USER = req.user.id;
-        await axios.get(url) 
+        Blogs.findOne({
+            link: url
+        }, (err, blog) => {       
+            if(err){
+                console.log(err);
+            } else {
+                if(blog===null){
+                axios.get(url) 
             .then(async (response) => {
                 var html = response.data;
                 var $ = await cheerio.load(html);
@@ -88,7 +96,12 @@ router.post('/', async (req, res) => {
                 })
             });
 
-    } catch (e) {
+    } else{
+        res.send('blog already added');
+    }
+}
+
+ }) }catch (e) {
         console.log(e);
     }
 });
@@ -104,6 +117,27 @@ router.get('/:id', (req, res) => {
         }
     })
 });
+
+router.post('/:id/addcomment',ensureAuthenticated,function(req,res){
+    Blogs.findById(req.params.id,  (error,findblog)=>{
+        if(error)
+        {
+            console.log(error);
+        }
+        else
+        {
+       var name= req.user;
+        
+       console.log(name.name);
+       var content= req.body.comment
+       findblog.comment.push({name:name.name,content :content});
+       findblog.save();
+       res.redirect(`/`);
+        }
+    });
+
+});
+
 
 router.get('/:id/edit',async (req,res)=>{
     Blogs.findById(req.params.id, (err, blog) => {

@@ -20,8 +20,8 @@ const communityRoutes = require('./routes/communityRouter.js');
 const users = require('./routes/users.js');
 const index = require('./routes/index.js');
 
-const {deleteAllBlogs} = require('./helper')
-// Express sessio
+const {deleteAllBlogs, deleteAllCommunities} = require('./helper')
+// Express session
 app.use(
     session({
       secret: 'secret',
@@ -62,6 +62,7 @@ mongoose.connect(mongoDB, {
     console.log(err.message);
 });
 // deleteAllBlogs();
+// deleteAllCommunities();
 
 app.set('view engine','ejs');
 

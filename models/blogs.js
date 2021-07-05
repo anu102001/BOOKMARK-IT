@@ -18,7 +18,17 @@ const blogschema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
-    }
+    },
+    comment:[
+        {
+              name:{
+                  type:String
+              },
+              content:{
+                type:String
+              }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Blogs', blogschema);
