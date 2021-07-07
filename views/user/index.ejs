@@ -33,11 +33,11 @@
   </nav> 
   <div class="container">
     
-    <h1>my Blogs </h1>
+    <h1 style="font-weight: 500; margin-top: 5px;" class="ml-4">MY SAVED BLOGS </h1>
     <% blogs.forEach(blog => { %>
     <div class="card mt-4 ml-4 mr-4">
       <div class="card-body">
-        <h4 class="card-title"><%= blog.heading %></h4>
+        <h4 class="card-title text-dark"><%= blog.heading %></h4>
         <div class="card-subtitle text-muted mb-2">
           <p>
             <a href="<%= blog.link %>"><%= blog.link %></a>
