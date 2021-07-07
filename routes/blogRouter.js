@@ -89,8 +89,7 @@ router.post('/', async (req, res) => {
                     if(err){
                         console.log(err);
                     } else {
-                        console.log(newBlog);
-                        console.log('Blog saved');
+                        
                         res.redirect(`/blogs`);
                     }
                 })
@@ -128,7 +127,7 @@ router.post('/:id/addcomment',ensureAuthenticated,function(req,res){
         {
        var name= req.user;
         
-       console.log(name.name);
+       
        var content= req.body.comment
        findblog.comment.push({name:name.name,content :content});
        findblog.save();
@@ -157,7 +156,7 @@ router.post('/:id/edit',async (req,res)=>{
         if(err) {
             console.log(err);
         } else {
-            console.log(blog);
+            
             res.redirect(`/blogs`)
         }
     })

@@ -19,7 +19,7 @@ router.get('/', ensureAuthenticated,async (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(communities);
+            
             res.render('community/index', {
                 communities,
             })
@@ -54,7 +54,7 @@ router.get('/:id', async (req, res) => {
             console.log(err);
         } else {
             
-            console.log(`/community/${req.params.id}`);
+            
             
             
             // console.log('Array of blog ids: ')
@@ -74,7 +74,7 @@ router.get('/:id', async (req, res) => {
 
             const blogs = await Blogs.find({ '_id' : { $in: foundCommunity.blogs } });
 
-            console.log(blogs);
+           
             res.render('community/show', {
                 community: foundCommunity,
                 blogs: blogs
