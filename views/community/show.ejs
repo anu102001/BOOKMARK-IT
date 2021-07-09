@@ -1,4 +1,5 @@
-<%- include("partials/preTitle") %>
+
+<%- include("../partials/preTitle") %>
 
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -11,17 +12,17 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Document</title>
 
-<%- include("partials/header") %>
+<%- include("../partials/header") %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">BLOGSAVE</a>
+  <a class="navbar-brand" href="#"><%= community.name %></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link " href="/dashboard">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/blogs">Blogs</a>
+      <a class="nav-item nav-link " href="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+      
       <a class="nav-item nav-link" href="/community">Community</a>
       <a class="nav-item nav-link" href="/blogs/myblogs">myblogs</a>
       <a href="/blogs/new" class="btn btn-success">New Blog</a>
@@ -32,8 +33,25 @@
    <a class="nav-item nav-link" href="/users/logout">logout</a></div>
   
 </nav> 
+    
+    
 <div class="container">
-<%- include("partials/box-community") %>
+    <% blogs.forEach(blog => { %>
+     
+        <div class="card mt-4 ml-4 mr-4">
+    <div class="card-body">
+       
+      <p>
+        <a href="/blogs/<%= blog._id %>">
+          <%= blog.heading %>
+        </a>
+      </p>
+       
+    </div>
 </div>
-
-<%- include("partials/footer") %>
+        
+    <% }) %>
+    
+    <a href="/community/<%= community._id %>/addBlog" class=" mt-4 ml-4 mr-4">Add Blog</a>
+  </div>
+<%- include("../partials/footer") %>

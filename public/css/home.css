@@ -6,6 +6,9 @@ body {
 .navbar-nav{
   flex-grow: 1;
 }
+.form-inline{
+  margin-right: 0;
+}
 .main{
   height:fit-content;
   min-height: 100vh;

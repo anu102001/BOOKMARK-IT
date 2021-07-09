@@ -1,14 +1,48 @@
-<%- include("../partials/preTitle") %>
-<title>Show</title>
-<%- include("../partials/header") %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/minty/bootstrap.min.css"
+    />
     
-    <h1>Show Blog</h1>
+    <div class="container">
+        <h3> <%= blog.heading %></h3>
+        <p><a href="<%= blog.link %>">blog.link</a></p>
+        <a href="/blogs/<%= blog._id %>/edit" class="btn btn-info">Edit</a>
+        <div action="/blogs/<%= blog._id %>/delete" method="POST">
+            <button type="submit" class="btn btn-danger">Delete Blog</button>
+        </div>
+        <form action="/blogs/<%= blog._id %>/addcomment" method="POST" class=" mb-10">
+            <input type="text" id="comment" name="comment">
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+        <% for (var i = 0; i < blog.comment.length; i++) { %>
+        <div class="card mt-4 ml-4 mr-4">
+            <div class="card-body">
+              <p style="font-size: 13px;"> <%= blog.comment[i].name %>
+              </p>
+              <h6 class="mt"><%= blog.comment[i].content %></h6>
+             
+                        
+                </div>
+            </div>
 
-    <p><a href="<%= blog.link %>">blog.link</a></p>
+                
+                <% } %>
+                 
+            
+        </div>
+        
 
-    <p><a href="/blogs/<%= blog._id %>/edit">Edit Blog</a></p>
+    
 
-    <form action="/blogs/<%= blog._id %>/delete" method="POST">
-        <button type="submit">Delete Blog</button>
-    </form>
+   
+
+   
+  
 <%- include("../partials/footer") %>
