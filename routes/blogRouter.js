@@ -27,7 +27,7 @@ router.get('/new', (req,res)=>{
 
 router.post('/', (req, res) => {
     var url = req.body.url;
-
+    
     var newBlog = new Blogs({
         link: url
     })
