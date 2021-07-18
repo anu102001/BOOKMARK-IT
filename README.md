@@ -11,7 +11,7 @@ Clone the `BOOKMARK-IT` repository using git:
 ```
 git clone https://github.com/atishay1743/BOOKMARK-IT
 
-cd CourseHub
+cd BOOKMARK-IT
 ```
 
 Start off with :
@@ -38,7 +38,6 @@ node app.js
 - Node.js
 - JavaScript
 - HTML/CSS
-- Anime.js
 - MongoDB
 
        
