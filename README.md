@@ -36,7 +36,9 @@ node app.js
 
  # Tech Stack 
 - Node.js
+- Express .js
 - JavaScript
+- Bootstrap
 - HTML/CSS
 - MongoDB
 
